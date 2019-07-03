@@ -1,0 +1,16 @@
+grails {
+    plugins {
+        compile project( ":${ rootProject.projectDir.name }-plugin" )
+
+        if ( System.getenv('O2_INLINE_BUILD') ) {
+//            compile project(':omar-core-plugin')
+        }
+    }
+}
+
+dependencies {
+    if ( ! System.getenv('O2_INLINE_BUILD') ) {
+//        compile 'io.ossim.omar.plugins:omar-core-plugin:+'
+    }
+}
+

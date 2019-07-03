@@ -1,6 +1,7 @@
 grails {
     plugins {
-        compile project( ":${ rootProject.projectDir.name }-plugin" )
+        // compile project( ":${ rootProject.projectDir.name }-plugin" )
+        compile project( ":omar-template-plugin" )
 
         if ( System.getenv('O2_INLINE_BUILD') ) {
 //            compile project(':omar-core-plugin')

@@ -30,6 +30,13 @@ subprojects { project ->
     apply plugin:"eclipse"
     apply plugin:"idea"
 
+    io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
+    io.ossim.gradleDefaults.Variables.setVersionVariables(project)
+    version "${buildVersion}-${buildVersionTag}"
+
+    jarDestination = "${project.projectDir}/build/libs/${project.name}-${version}.jar"
+
+
 	afterEvaluate {
 		project.apply plugin: 'maven-publish'
 		
@@ -39,10 +46,10 @@ subprojects { project ->
 		project.publishing {
 			repositories {
 				maven {
-					url = mavenRepoUrl
+					url = mavenPublishUrl
 					credentials {
-						username System.getenv( 'REPOSITORY_MANAGER_USERNAME' )
-						password System.getenv( 'REPOSITORY_MANAGER_PASSWORD' )
+						username mavenRepoUsername // System.getenv( 'REPOSITORY_MANAGER_USERNAME' )
+						password mavenRepoPassword // System.getenv( 'REPOSITORY_MANAGER_PASSWORD' )
 					}
 				}
 			}
@@ -52,13 +59,7 @@ subprojects { project ->
 				}
 			}
 		}
-	}    
-
-    io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
-    io.ossim.gradleDefaults.Variables.setVersionVariables(project)
-    version "${buildVersion}-${buildVersionTag}"
-
-    jarDestination = "${project.projectDir}/build/libs/${project.name}-${version}.jar"
+	}        
 
     if ( isGrailsApp )        
     {
@@ -69,8 +70,18 @@ subprojects { project ->
     else if ( isGrailsPlugin )
     {
         // sourceSets.main.output.classesDir = 'build/classes/groovy/main'
-        // io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
-        // io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
+
+        // io.ossim.gradleDefaults.Publications.addPublication(
+        //    project, 
+        //    groupName, 
+        //    name, "${buildVersion}-${buildVersionTag}"
+        //    )
+        // io.ossim.gradleDefaults.Publications.addRepository(
+        //    project, 
+        //    mavenPublishUrl, 
+        //    mavenRepoUsername, 
+        //    mavenRepoPassword
+        //    )
     }    
 
 	if ( isGrailsProject )

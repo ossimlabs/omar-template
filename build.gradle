@@ -27,39 +27,42 @@ subprojects { project ->
 	boolean isGrailsPlugin = project.name.endsWith( '-plugin' )
 	boolean isGrailsProject = isGrailsApp || isGrailsPlugin
 
-    apply plugin:"eclipse"
-    apply plugin:"idea"
+    project.apply plugin: "eclipse"
+    project.apply plugin: "idea"
+    project.apply plugin: 'java'
+    project.apply plugin: 'groovy'
+
 
     io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
     io.ossim.gradleDefaults.Variables.setVersionVariables(project)
     version "${buildVersion}-${buildVersionTag}"
 
+        afterEvaluate {
+            project.apply plugin: 'maven-publish'
+            
+            project.publish.dependsOn assemble
+            project.publishToMavenLocal.dependsOn assemble
+            project.sourceSets.main.output.classesDir = 'build/classes/groovy/main'
+
+            project.publishing {
+                repositories {
+                    maven {
+                        url = mavenPublishUrl ?: System.getenv( 'MAVEN_PUBLISH_URL' )
+                        credentials {
+                            username mavenRepoUsername ?: System.getenv( 'MAVEN_REPO_USERNAME' )
+                            password mavenRepoPassword ?: System.getenv( 'MAVEN_REPO_PASSWORD' )
+                        }
+                    }
+                }
+                publications {
+                    mavenJava( MavenPublication ) {
+                        from project.components.java
+                    }
+                }
+            }
+        }                    
+
     jarDestination = "${project.projectDir}/build/libs/${project.name}-${version}.jar"
-
-
-	afterEvaluate {
-		project.apply plugin: 'maven-publish'
-		
-		project.publish.dependsOn assemble
-		project.publishToMavenLocal.dependsOn assemble
-		
-		project.publishing {
-			repositories {
-				maven {
-					url = mavenPublishUrl
-					credentials {
-						username mavenRepoUsername // System.getenv( 'REPOSITORY_MANAGER_USERNAME' )
-						password mavenRepoPassword // System.getenv( 'REPOSITORY_MANAGER_PASSWORD' )
-					}
-				}
-			}
-			publications {
-				mavenJava( MavenPublication ) {
-					from components.java
-				}
-			}
-		}
-	}        
 
     if ( isGrailsApp )        
     {
@@ -69,7 +72,7 @@ subprojects { project ->
     }
     else if ( isGrailsPlugin )
     {
-        // sourceSets.main.output.classesDir = 'build/classes/groovy/main'
+        //sourceSets.main.output.classesDir = 'build/classes/groovy/main'
 
         // io.ossim.gradleDefaults.Publications.addPublication(
         //    project, 

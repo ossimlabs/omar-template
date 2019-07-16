@@ -10,7 +10,7 @@ cp $(dirname $SOURCE)/../.gitignore  $PWD/$TARGET
 cp $(dirname $SOURCE)/../settings.gradle  $PWD/$TARGET
 cp $(dirname $SOURCE)/../gradle.properties  $PWD/$TARGET
 cp $(dirname $SOURCE)/../build.gradle  $PWD/$TARGET
-cp $(dirname $SOURCE)/../Jenkinsfile  $PWD/$TARGET
+sed s/omar-template/${TARGET}/g   $(dirname $SOURCE)/../Jenkinsfile > $PWD/$TARGET/Jenkinsfile
 
 # Create gradle wrapper
 cd $PWD/$TARGET

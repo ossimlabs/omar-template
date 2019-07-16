@@ -2,10 +2,9 @@ package omar.template.app
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
-import groovy.transform.CompileStatic
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
-@EnableDiscoveryClient
+import groovy.transform.CompileStatic
+
 @CompileStatic
 class Application extends GrailsAutoConfiguration {
     static void main(String[] args) {

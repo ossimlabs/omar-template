@@ -5,7 +5,10 @@ import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 buildscript {
 	repositories {
+<<<<<<< HEAD
 		maven { url System.getenv('MAVEN_REPO_URL') }
+=======
+>>>>>>> 5e545b28df0a30582f8fa38559301c51909bbdc1
 		maven { url "https://repo.grails.org/grails/core" }
 	}
 	dependencies {
@@ -27,7 +30,12 @@ subprojects { project ->
 	boolean isGrailsApp = project.name.endsWith( '-app' )
 	boolean isGrailsPlugin = project.name.endsWith( '-plugin' )
 	boolean isGrailsProject = isGrailsApp || isGrailsPlugin
+<<<<<<< HEAD
 		
+=======
+	
+	
+>>>>>>> 5e545b28df0a30582f8fa38559301c51909bbdc1
 	version projectVersion
 	group groupName
 	

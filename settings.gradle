@@ -20,9 +20,7 @@ pluginManagement {
 
 if ( System.getenv( 'O2_INLINE_BUILD' ) )
 {
-	def modules = [ 
-//         "omar-core"
-  ]
+	def modules = [ ]
 
 	modules.each { module ->
 		include "${ module }-plugin"

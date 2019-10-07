@@ -1,0 +1,9 @@
+apply plugin: 'groovy'
+repositories {
+    mavenLocal()
+    maven { url ossimMavenProxy }
+    jcenter()
+}
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+}

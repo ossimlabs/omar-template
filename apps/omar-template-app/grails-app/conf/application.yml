@@ -3,9 +3,6 @@ grails:
     profile: web
     codegen:
         defaultPackage: omar.template.app
-    spring:
-        transactionManagement:
-            proxies: false
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
@@ -17,17 +14,25 @@ info:
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
+    jmx:
+        unique-names: true
     main:
         banner-mode: "off"
     groovy:
         template:
             check-template-location: false
-
-# Spring Actuator Endpoints are Disabled by Default
-endpoints:
-    enabled: false
-    jmx:
-        enabled: true
+    devtools:
+        restart:
+            additional-exclude:
+                - '*.gsp'
+                - '**/*.gsp'
+                - '*.gson'
+                - '**/*.gson'
+                - 'logback.groovy'
+                - '*.properties'
+management:
+    endpoints:
+        enabled-by-default: false
 
 ---
 grails:
@@ -78,12 +83,13 @@ grails:
             htmlcodec: xml
             codecs:
                 expression: html
-                scriptlets: html
+                scriptlet: html
                 taglib: none
                 staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
+management:
+    endpoints:
+        jmx:
+            unique-names: true
 
 ---
 hibernate:
@@ -129,3 +135,35 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+grails:
+    cors:
+        enabled: true
+    resources:
+        pattern: '/**'
+    servlet:
+        version: 3.0
+---
+spring:
+  application:
+    name: omar-template
+  cloud:
+    discovery:
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: ${spring.cloud.discovery.enabled}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://omar-eureka-server:8761/omar-eureka-server/eureka}
+  instance:
+    preferIpAddress: true
+
+
+endpoints:
+  enabled: true
+  env:
+    enabled: true    # default: true
+    sensitive: false  # default: true    

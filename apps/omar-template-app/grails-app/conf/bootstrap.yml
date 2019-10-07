@@ -1,22 +1,12 @@
 ---
 spring:
-  application:
-    name: omar-template
   cloud:
     config:
       enabled: false
       uri: http://localhost:8888
-    discovery:
-      enabled: false
-    service-registry:
-      auto-registration:
-        enabled: ${spring.cloud.discovery.enabled}
-#---
-#spring:
-#  profiles: production
-#  cloud:
-#    config:
-#      enabled: true
-#      uri: http://omar-config-server:8888/omar-config-server
-#    discovery:
-#      enabled: true
+---
+spring:
+  profiles: production
+  cloud:
+    config:
+      uri: http://omar-config-server:8888/omar-config-server

@@ -5,6 +5,8 @@ pluginManagement {
 	}
 }
 
+rootProject.name='omar-template'
+
 [ 'lib', 'plugin', 'app' ].each { String projectType ->
 	File projectTypeDir = new File( rootDir, "${ projectType }s" )
 

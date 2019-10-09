@@ -30,8 +30,8 @@ subprojects { project ->
 
     io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
     io.ossim.gradleDefaults.Variables.setVersionVariables(project)
-    version "${buildVersion}-${buildVersionTag}"
-    group "omar.template"
+    project.version "${buildVersion}-${buildVersionTag}"
+    project.group groupName
 
     apply plugin:"eclipse"
     apply plugin:"idea"
@@ -46,14 +46,13 @@ subprojects { project ->
                 dockerBuildDir = "${ rootProject.projectDir }/docker"
                 jarDestination = "${ project.projectDir }/build/libs/${ project.name }-${ version }.jar"
                 
-                dockerImageName = name
+                dockerImageName = project.name
                 dockerBuildTag = project.dockerImageTag
                 buildArguments = [ "BASE_IMAGE": "${ dockerRegistryUrl }/${ dockerBaseImage }:${ dockerFromTag }" ]
                 
                 openshiftUrl = getConfigurationProperty( 'OPENSHIFT_URL', 'openshiftUrl' )
                 openshiftUsername = getConfigurationProperty( 'OPENSHIFT_USERNAME', 'openshiftUsername' )
-                openshiftPassword = getConfigurationProperty( 'OPENSHIFT_PASSWORD', 'openshiftPassword' )
-                
+                openshiftPassword = getConfigurationProperty( 'OPENSHIFT_PASSWORD', 'openshiftPassword' )                
                 openshiftProjectName =  getConfigurationProperty( 'OPENSHIFT_PROJECT_NAME', 'openshiftProjectName' )
             }
 
@@ -65,7 +64,7 @@ subprojects { project ->
                 openshiftProjectName, 
                 openshiftServiceName,  
                 dockerRegistryUrl, 
-                name, 
+                dockerImageName, 
                 dockerImageTag
             )
 
@@ -91,7 +90,6 @@ subprojects { project ->
                 inputDir = project.file( dockerBuildDir )
                 tags.add( "${ dockerImageName }:${ dockerBuildTag }" )
                 buildArgs = buildArguments
-            //	registryCredentials = dockerRegistryCredentials
                 doFirst {
                     if ( buildArguments )
                     {
@@ -109,7 +107,6 @@ subprojects { project ->
             task pushDockerImage( type: DockerPushImage, dependsOn: 'tagDockerImage' ) {
                 imageName = "${ dockerRegistryUrl }/${ dockerImageName }"
                 tag = dockerBuildTag
-            //	registryCredentials = dockerRegistryCredentials
             }
 
             apply plugin:"org.grails.grails-web"

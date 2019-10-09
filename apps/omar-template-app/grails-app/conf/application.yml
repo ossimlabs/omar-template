@@ -102,7 +102,7 @@ spring:
     name: omar-template
   cloud:
     discovery:
-      enabled: false
+      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:false}
     service-registry:
       auto-registration:
         enabled: ${spring.cloud.discovery.enabled}

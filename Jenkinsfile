@@ -64,7 +64,6 @@ node("${BUILD_NODE}"){
             sh """
             ./gradlew pushDockerImage \
                 -PossimMavenProxy=${OSSIM_MAVEN_PROXY}
-		ls -alhR
             """
         }
     }

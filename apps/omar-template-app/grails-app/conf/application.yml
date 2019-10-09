@@ -89,6 +89,11 @@ environments:
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 ---
+server:
+    servlet:
+        context-path: /omar-template
+    contextPath: ${server.servlet.context-path}
+    
 grails:
     cors:
         enabled: true

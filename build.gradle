@@ -9,11 +9,11 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:7.0.0"
-        classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.0"
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.0.10"
-		classpath "io.ossim:gradleDefaults:${ gradleDefaultsV }"
-		classpath 'com.bmuschko:gradle-docker-plugin:5.1.0'
+        classpath "org.grails.plugins:hibernate5:${hibernate5PluginVersion}"
+        classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:${webdriverGradlePluginVersion}"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:${assetPipelineVersion}"
+		classpath "io.ossim:gradleDefaults:${ gradleDefaultsVersion }"
+		classpath "com.bmuschko:gradle-docker-plugin:${gradleDockerPluginVersion}"
     }
 }
 
@@ -122,6 +122,8 @@ subprojects { project ->
         apply plugin:"org.grails.grails-gsp"
 
         repositories {
+            mavenLocal()
+            maven { url ossimMavenProxy }
             maven { url "https://repo.grails.org/grails/core" }
         }
 
@@ -162,7 +164,7 @@ subprojects { project ->
             compile "org.grails.plugins:gsp"
             compileOnly "io.micronaut:micronaut-inject-groovy"
             console "org.grails:grails-console"
-            runtime "com.bertramlabs.plugins:asset-pipeline-grails:3.0.10"
+            runtime "com.bertramlabs.plugins:asset-pipeline-grails:${assetPipelineVersion}"
             testCompile "org.grails:grails-gorm-testing-support"
             testCompile "org.mockito:mockito-core"
             testCompile "org.grails:grails-web-testing-support"
@@ -171,18 +173,18 @@ subprojects { project ->
             {
                 compile "org.grails.plugins:events"
                 compile "org.grails.plugins:hibernate5"
-                compile "org.hibernate:hibernate-core:5.4.0.Final"
+                compile "org.hibernate:hibernate-core:${hibernateCoreVersion}"
                 profile "org.grails.profiles:web"
-                runtime "org.glassfish.web:el-impl:2.1.2-b03"
+                runtime "org.glassfish.web:el-impl:${glassfishWebVersion}"
                 runtime "com.h2database:h2"
                 runtime "org.apache.tomcat:tomcat-jdbc"
-                runtime "javax.xml.bind:jaxb-api:2.3.0"
+                runtime "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
                 testCompile "org.grails.plugins:geb"
-                testCompile "org.seleniumhq.selenium:selenium-remote-driver:3.14.0"
-                testCompile "org.seleniumhq.selenium:selenium-api:3.14.0"
-                testCompile "org.seleniumhq.selenium:selenium-support:3.14.0"
-                testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
-                testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
+                testCompile "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
+                testCompile "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
+                testCompile "org.seleniumhq.selenium:selenium-support:${seleniumVersion}"
+                testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
+                testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:${seleniumVersion}"
 
                 compile 'org.springframework.cloud:spring-cloud-starter-config'
                 compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"

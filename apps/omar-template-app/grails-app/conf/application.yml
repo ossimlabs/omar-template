@@ -32,16 +32,7 @@ spring:
                 - '*.properties'
 management:
   endpoints:
-    web:
-      exposure:
-        include: "*"
     enabled-by-default: false
-  endpoint:
-    env:
-      enabled: true
-      sensitive: fasle
-    health:
-      enabled: true
 
 ---
 hibernate:
@@ -94,6 +85,18 @@ server:
         context-path: /omar-template
     contextPath: ${server.servlet.context-path}
     
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    env:
+      enabled: true
+      sensitive: fasle
+    health:
+      enabled: true
+
 grails:
     cors:
         enabled: true

@@ -78,7 +78,7 @@ management:
   endpoint:
     env:
       enabled: true
-      sensitive: fasle
+      sensitive: false
     health:
       enabled: true
     
